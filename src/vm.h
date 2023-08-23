@@ -6,23 +6,28 @@
 #include "value.h"
 
 #define FRAMES_MAX 64
-#define STACK_MAX (FRAMES_MAX * UINT8_COUNT)
+#define STACK_MAX  (FRAMES_MAX * UINT8_COUNT)
 
 typedef struct {
   ObjClosure *closure;
-  uint8_t *ip;
-  Value *slots;
+  uint8_t    *ip;
+  Value      *slots;
 } CallFrame;
 
 typedef struct {
-  CallFrame frames[FRAMES_MAX];
-  int frameCount;
-  Value stack[STACK_MAX];
-  Value *stackTop;
-  Table globals;
-  Table strings;
+  CallFrame   frames[FRAMES_MAX];
+  int         frameCount;
+  Value       stack[STACK_MAX];
+  Value      *stackTop;
+  Table       globals;
+  Table       strings;
   ObjUpvalue *openUpvalues;
-  Obj *objects;
+  Obj        *objects;
+  int         grayCount;
+  int         grayCapacity;
+  size_t      bytesAllocated;
+  size_t      nextGC;
+  Obj       **grayStack;
 } VM;
 
 typedef enum {
@@ -31,12 +36,12 @@ typedef enum {
   INTERPRET_RUNTIME_ERROR
 } InterpretResult;
 
-extern VM vm;
+extern VM       vm;
 
-void initVM();
-void freeVM();
+void            initVM();
+void            freeVM();
 InterpretResult interpret(const char *source);
-void push(Value value);
-Value pop();
+void            push(Value value);
+Value           pop();
 
 #endif
