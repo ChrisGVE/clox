@@ -17,6 +17,9 @@ typedef enum {
   OP_SET_GLOBAL,
   OP_GET_UPVALUE,
   OP_SET_UPVALUE,
+  OP_GET_PROPERTY,
+  OP_SET_PROPERTY,
+  OP_GET_SUPER,
   OP_EQUAL,
   OP_GREATER,
   OP_LESS,
@@ -31,22 +34,27 @@ typedef enum {
   OP_JUMP_IF_FALSE,
   OP_LOOP,
   OP_CALL,
+  OP_INVOKE,
+  OP_SUPER_INVOKE,
   OP_CLOSURE,
   OP_CLOSE_UPVALUE,
   OP_RETURN,
+  OP_CLASS,
+  OP_INHERIT,
+  OP_METHOD,
 } OpCode;
 
 typedef struct {
-  int count;
-  int capacity;
-  uint8_t *code;
-  int *lines;
+  int        count;
+  int        capacity;
+  uint8_t   *code;
+  int       *lines;
   ValueArray constants;
 } Chunk;
 
 void initChunk(Chunk *chunk);
 void freeChunk(Chunk *chunk);
 void writeChunk(Chunk *chunk, uint8_t byte, int line);
-int addConstant(Chunk *chunk, Value value);
+int  addConstant(Chunk *chunk, Value value);
 
 #endif

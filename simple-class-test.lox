@@ -1,0 +1,7 @@
+class Brioche {}
+print Brioche;
+var pastry = Brioche();
+print pastry;
+pastry.test = true;
+print pastry.test;
+
